@@ -550,8 +550,8 @@ function WatchMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
 }
 _c2 = WatchMockup;
 /* ═══════════════════════════════════════════════════════════════════════════════
-   PHONE SCREEN — lock screen layout: always shows both NOW and live time
-   ═══════════════════════════════════════════════════════════════════════════════ */ function PhoneScreenContent({ timeDisplay, timePeriod, color }) {
+   PHONE SCREEN — tap to toggle between NOW and live time
+   ═══════════════════════════════════════════════════════════════════════════════ */ function PhoneScreenContent({ showTime, timeDisplay, timePeriod, color }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             width: "100%",
@@ -560,14 +560,16 @@ _c2 = WatchMockup;
             position: "relative",
             overflow: "hidden",
             transition: "background 0.35s ease, box-shadow 0.35s ease",
-            boxShadow: `inset 0 0 80px ${color.glow}`
+            boxShadow: `inset 0 0 80px ${color.glow}`,
+            cursor: "pointer",
+            userSelect: "none"
         },
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Scanlines, {
                 opacity: 0.03
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 305,
+                lineNumber: 306,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -595,7 +597,7 @@ _c2 = WatchMockup;
                         children: "NOW MODE"
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 313,
+                        lineNumber: 314,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -619,7 +621,7 @@ _c2 = WatchMockup;
                                     }
                                 }, h, false, {
                                     fileName: "[project]/app/components/DeviceMockups.tsx",
-                                    lineNumber: 320,
+                                    lineNumber: 321,
                                     columnNumber: 13
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -641,37 +643,37 @@ _c2 = WatchMockup;
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/app/components/DeviceMockups.tsx",
-                                    lineNumber: 326,
+                                    lineNumber: 327,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 322,
+                                lineNumber: 323,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 318,
+                        lineNumber: 319,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 308,
+                lineNumber: 309,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            showTime ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "screen-content",
                 style: {
                     position: "absolute",
-                    top: "50%",
+                    top: "28%",
                     left: 0,
                     right: 0,
-                    transform: "translateY(-54%)",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 4,
+                    gap: 6,
                     zIndex: 4
                 },
                 children: [
@@ -680,7 +682,70 @@ _c2 = WatchMockup;
                             fontFamily: '"Space Mono", monospace',
                             fontWeight: 700,
                             color: color.text,
-                            fontSize: "4.6rem",
+                            fontSize: "3.8rem",
+                            letterSpacing: "-0.04em",
+                            lineHeight: 1,
+                            textShadow: `0 4px 24px ${color.glow}`
+                        },
+                        children: timeDisplay
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/DeviceMockups.tsx",
+                        lineNumber: 340,
+                        columnNumber: 11
+                    }, this),
+                    timePeriod && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        style: {
+                            fontFamily: '"Space Mono", monospace',
+                            fontWeight: 400,
+                            color: color.text,
+                            fontSize: "0.7rem",
+                            letterSpacing: "0.3em",
+                            opacity: 0.6
+                        },
+                        children: timePeriod
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/DeviceMockups.tsx",
+                        lineNumber: 350,
+                        columnNumber: 13
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            marginTop: 12,
+                            fontFamily: '"Space Mono", monospace',
+                            fontSize: "0.5rem",
+                            letterSpacing: "0.22em",
+                            color: color.text,
+                            opacity: 0.4
+                        },
+                        children: "TAP FOR NOW"
+                    }, void 0, false, {
+                        fileName: "[project]/app/components/DeviceMockups.tsx",
+                        lineNumber: 358,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, "time", true, {
+                fileName: "[project]/app/components/DeviceMockups.tsx",
+                lineNumber: 336,
+                columnNumber: 9
+            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "screen-content",
+                style: {
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 4
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        style: {
+                            fontFamily: '"Space Mono", monospace',
+                            fontWeight: 700,
+                            color: color.text,
+                            fontSize: "4.8rem",
                             letterSpacing: "-0.04em",
                             lineHeight: 1,
                             textShadow: `0 4px 28px ${color.glow}`,
@@ -690,72 +755,29 @@ _c2 = WatchMockup;
                         children: "NOW"
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 343,
-                        columnNumber: 9
+                        lineNumber: 370,
+                        columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         style: {
-                            width: 40,
-                            height: 1,
-                            background: color.text,
-                            opacity: 0.2,
-                            margin: "6px 0"
-                        }
+                            marginTop: 16,
+                            fontFamily: '"Space Mono", monospace',
+                            fontSize: "0.5rem",
+                            letterSpacing: "0.3em",
+                            color: color.text,
+                            opacity: 0.38
+                        },
+                        children: "TAP TO SEE TIME"
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 355,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        style: {
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            gap: 3
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                style: {
-                                    fontFamily: '"Space Mono", monospace',
-                                    fontWeight: 700,
-                                    color: color.text,
-                                    fontSize: "2.6rem",
-                                    letterSpacing: "-0.03em",
-                                    lineHeight: 1,
-                                    textShadow: `0 2px 16px ${color.glow}`
-                                },
-                                children: timeDisplay
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 366,
-                                columnNumber: 11
-                            }, this),
-                            timePeriod && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                style: {
-                                    fontFamily: '"Space Mono", monospace',
-                                    fontWeight: 400,
-                                    color: color.text,
-                                    fontSize: "0.7rem",
-                                    letterSpacing: "0.3em",
-                                    opacity: 0.55
-                                },
-                                children: timePeriod
-                            }, void 0, false, {
-                                fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 376,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 362,
-                        columnNumber: 9
+                        lineNumber: 378,
+                        columnNumber: 11
                     }, this)
                 ]
-            }, void 0, true, {
+            }, "now", true, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 335,
-                columnNumber: 7
+                lineNumber: 365,
+                columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
@@ -772,7 +794,7 @@ _c2 = WatchMockup;
                 }
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 388,
+                lineNumber: 387,
                 columnNumber: 7
             }, this)
         ]
@@ -783,7 +805,7 @@ _c2 = WatchMockup;
     }, this);
 }
 _c3 = PhoneScreenContent;
-function PhoneMockup({ color, timeDisplay, timePeriod }) {
+function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
     const W = 200, H = 432, RADIUS = 38, BEZEL = 8;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
@@ -900,6 +922,7 @@ function PhoneMockup({ color, timeDisplay, timePeriod }) {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        onClick: onToggle,
                         style: {
                             width: "100%",
                             height: "100%",
@@ -908,16 +931,18 @@ function PhoneMockup({ color, timeDisplay, timePeriod }) {
                             background: "#050505",
                             boxShadow: "inset 0 2px 14px rgba(0,0,0,0.95), 0 0 0 1px rgba(0,0,0,0.7)",
                             position: "relative",
-                            zIndex: 1
+                            zIndex: 1,
+                            cursor: "pointer"
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(PhoneScreenContent, {
+                                showTime: showTime,
                                 timeDisplay: timeDisplay,
                                 timePeriod: timePeriod,
                                 color: color
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 466,
+                                lineNumber: 468,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -935,7 +960,7 @@ function PhoneMockup({ color, timeDisplay, timePeriod }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 471,
+                                lineNumber: 473,
                                 columnNumber: 11
                             }, this)
                         ]
@@ -957,7 +982,7 @@ function PhoneMockup({ color, timeDisplay, timePeriod }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 481,
+                        lineNumber: 483,
                         columnNumber: 9
                     }, this)
                 ]
@@ -1012,12 +1037,12 @@ function ColorPicker({ activeColor, onChange }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 513,
+                        lineNumber: 515,
                         columnNumber: 13
                     }, this)
                 }, c.id, false, {
                     fileName: "[project]/app/components/DeviceMockups.tsx",
-                    lineNumber: 501,
+                    lineNumber: 503,
                     columnNumber: 9
                 }, this)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1032,13 +1057,13 @@ function ColorPicker({ activeColor, onChange }) {
                 children: color.label
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 520,
+                lineNumber: 522,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/components/DeviceMockups.tsx",
-        lineNumber: 499,
+        lineNumber: 501,
         columnNumber: 5
     }, this);
 }
@@ -1073,12 +1098,12 @@ function FormatToggle({ use12h, onChange, accentColor }) {
                 children: is12 ? "12H" : "24H"
             }, String(is12), false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 542,
+                lineNumber: 544,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/app/components/DeviceMockups.tsx",
-        lineNumber: 536,
+        lineNumber: 538,
         columnNumber: 5
     }, this);
 }
@@ -1115,6 +1140,7 @@ var _s = __turbopack_context__.k.signature();
 function DemoPage() {
     _s();
     const [watchShowTime, setWatchShowTime] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [phoneShowTime, setPhoneShowTime] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [activeColor, setActiveColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [use12h, setUse12h] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const { display: timeDisplay, period: timePeriod } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$DeviceMockups$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCurrentTime"])(use12h);
@@ -1124,6 +1150,11 @@ function DemoPage() {
                 "DemoPage.useCallback[toggleWatch]": (v)=>!v
             }["DemoPage.useCallback[toggleWatch]"])
     }["DemoPage.useCallback[toggleWatch]"], []);
+    const togglePhone = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "DemoPage.useCallback[togglePhone]": ()=>setPhoneShowTime({
+                "DemoPage.useCallback[togglePhone]": (v)=>!v
+            }["DemoPage.useCallback[togglePhone]"])
+    }["DemoPage.useCallback[togglePhone]"], []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
             fontFamily: '"Space Mono", monospace',
@@ -1164,7 +1195,7 @@ function DemoPage() {
                                 children: "NOW"
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 41,
+                                lineNumber: 43,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1176,7 +1207,7 @@ function DemoPage() {
                                 children: "MODE"
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 44,
+                                lineNumber: 46,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1191,13 +1222,13 @@ function DemoPage() {
                                 children: "DEMO"
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 45,
+                                lineNumber: 47,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 40,
+                        lineNumber: 42,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1213,13 +1244,13 @@ function DemoPage() {
                         children: "← BACK TO SITE"
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 51,
+                        lineNumber: 53,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/demo/page.tsx",
-                lineNumber: 32,
+                lineNumber: 34,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1239,7 +1270,7 @@ function DemoPage() {
                         children: "INTERACTIVE PREVIEW"
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 65,
+                        lineNumber: 67,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -1253,7 +1284,7 @@ function DemoPage() {
                         children: "TAP THE SCREEN."
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 69,
+                        lineNumber: 71,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1263,16 +1294,16 @@ function DemoPage() {
                             letterSpacing: "0.2em",
                             color: "rgba(255,255,255,0.35)"
                         },
-                        children: "CHOOSE A COLOR · TAP WATCH TO TOGGLE"
+                        children: "TAP EITHER DEVICE TO TOGGLE · CHOOSE A COLOR"
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 73,
+                        lineNumber: 75,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/demo/page.tsx",
-                lineNumber: 61,
+                lineNumber: 63,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1291,7 +1322,7 @@ function DemoPage() {
                         onChange: setActiveColor
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 86,
+                        lineNumber: 88,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1302,7 +1333,7 @@ function DemoPage() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 88,
+                        lineNumber: 90,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1321,7 +1352,7 @@ function DemoPage() {
                                 children: "FORMAT"
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 91,
+                                lineNumber: 93,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$DeviceMockups$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormatToggle"], {
@@ -1330,19 +1361,19 @@ function DemoPage() {
                                 accentColor: color.bg
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 95,
+                                lineNumber: 97,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 90,
+                        lineNumber: 92,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/demo/page.tsx",
-                lineNumber: 80,
+                lineNumber: 82,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1373,7 +1404,7 @@ function DemoPage() {
                                 children: "WATCH"
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 108,
+                                lineNumber: 110,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$DeviceMockups$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["WatchMockup"], {
@@ -1384,7 +1415,7 @@ function DemoPage() {
                                 timePeriod: timePeriod
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 112,
+                                lineNumber: 114,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1396,13 +1427,13 @@ function DemoPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 116,
+                                lineNumber: 118,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 107,
+                        lineNumber: 109,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1414,7 +1445,7 @@ function DemoPage() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 123,
+                        lineNumber: 125,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1435,16 +1466,18 @@ function DemoPage() {
                                 children: "MOBILE"
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 131,
+                                lineNumber: 133,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$DeviceMockups$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PhoneMockup"], {
+                                showTime: phoneShowTime,
+                                onToggle: togglePhone,
                                 color: color,
                                 timeDisplay: timeDisplay,
                                 timePeriod: timePeriod
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 135,
+                                lineNumber: 137,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1456,19 +1489,19 @@ function DemoPage() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 138,
+                                lineNumber: 141,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 130,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/demo/page.tsx",
-                lineNumber: 100,
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1484,7 +1517,7 @@ function DemoPage() {
                 children: [
                     [
                         "TAP",
-                        "Toggle NOW / time on watch"
+                        "Toggle NOW ↔ time on either device"
                     ],
                     [
                         "COLOR",
@@ -1510,7 +1543,7 @@ function DemoPage() {
                                 children: label
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 158,
+                                lineNumber: 161,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1522,18 +1555,18 @@ function DemoPage() {
                                 children: desc
                             }, void 0, false, {
                                 fileName: "[project]/app/demo/page.tsx",
-                                lineNumber: 162,
+                                lineNumber: 165,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, label, true, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 157,
+                        lineNumber: 160,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/app/demo/page.tsx",
-                lineNumber: 146,
+                lineNumber: 149,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
@@ -1556,7 +1589,7 @@ function DemoPage() {
                         children: "NOW MODE — TIME BY CHOICE"
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 176,
+                        lineNumber: 179,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1568,23 +1601,23 @@ function DemoPage() {
                         children: "© 2026"
                     }, void 0, false, {
                         fileName: "[project]/app/demo/page.tsx",
-                        lineNumber: 179,
+                        lineNumber: 182,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/demo/page.tsx",
-                lineNumber: 170,
+                lineNumber: 173,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/demo/page.tsx",
-        lineNumber: 22,
+        lineNumber: 24,
         columnNumber: 5
     }, this);
 }
-_s(DemoPage, "KcH2AGcOc+7qaiirHX+ZDSk2CtY=", false, function() {
+_s(DemoPage, "pn41sA8wGY5Lqw+IJntNReQ+aDI=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$app$2f$components$2f$DeviceMockups$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCurrentTime"]
     ];

@@ -68,8 +68,9 @@ export default function Home() {
   /* ── Device mockup ── */
   const [activeColor, setActiveColor]     = useState(0);
   const [use12h, setUse12h]               = useState(false);
-  const [watchShowTime, setWatchShowTime] = useState(false);
-  const [isSynced, setIsSynced]           = useState(false);
+  const [watchShowTime, setWatchShowTime]   = useState(false);
+  const [phoneShowTime, setPhoneShowTime]   = useState(false);
+  const [isSynced, setIsSynced]             = useState(false);
 
   const { display: timeDisplay, period: timePeriod } = useCurrentTime(use12h);
   const deviceColor = COLORS[activeColor];
@@ -106,6 +107,7 @@ export default function Home() {
   }, [isSynced, activeColor, lastManualAccent]);
 
   const toggleWatch = useCallback(() => setWatchShowTime((v) => !v), []);
+  const togglePhone = useCallback(() => setPhoneShowTime((v) => !v), []);
 
   /* Email submit */
   const handleSubmit = async (e: React.FormEvent) => {
@@ -331,7 +333,7 @@ export default function Home() {
                 <span style={{ color: "var(--accent)" }}>SEE IT WORK.</span>
               </h2>
               <p className="mt-4 text-sm text-gray-500 font-sans max-w-xs">
-                Watch toggles NOW ↔ time on tap. Phone always shows both — like a lock screen.
+                Tap either device to toggle between NOW and the time.
               </p>
             </div>
 
@@ -419,6 +421,7 @@ export default function Home() {
                 color: "rgba(255,255,255,0.25)",
               }}>MOBILE</span>
               <PhoneMockup
+                showTime={phoneShowTime} onToggle={togglePhone}
                 color={deviceColor} timeDisplay={timeDisplay} timePeriod={timePeriod}
               />
               <div style={{ width: 36, height: 2, background: deviceColor.bg, transition: "background 0.3s ease" }} />
