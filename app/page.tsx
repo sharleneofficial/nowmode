@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Space_Mono, Inter } from "next/font/google";
 import Link from "next/link";
+import {
+  COLORS, useCurrentTime,
+  WatchMockup, PhoneMockup,
+  ColorPicker, FormatToggle,
+} from "./components/DeviceMockups";
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
@@ -17,37 +22,39 @@ const inter = Inter({
 });
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail]           = useState("");
+  const [submitted, setSubmitted]   = useState(false);
+  const [activeColor, setActiveColor] = useState(0);
+  const [use12h, setUse12h]         = useState(false);
+  const [watchShowTime, setWatchShowTime] = useState(false);
+  const [phoneShowTime, setPhoneShowTime] = useState(false);
+
+  const { display: timeDisplay, period: timePeriod } = useCurrentTime(use12h);
+  const color = COLORS[activeColor];
+
+  const toggleWatch = useCallback(() => setWatchShowTime((v) => !v), []);
+  const togglePhone = useCallback(() => setPhoneShowTime((v) => !v), []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubmitted(true);
-    }
+    if (email) setSubmitted(true);
   };
 
   return (
-    <main
-      className={`${spaceMono.variable} ${inter.variable} font-mono bg-white text-black overflow-x-hidden`}
-    >
+    <main className={`${spaceMono.variable} ${inter.variable} font-mono bg-white text-black overflow-x-hidden`}>
+
       {/* HERO */}
       <section className="min-h-screen relative flex flex-col justify-center px-8 md:px-16 lg:px-24">
-        {/* Frame - intentional structural element */}
         <div className="absolute top-0 left-0 w-full h-2 bg-black" />
         <div className="absolute top-0 left-0 w-2 h-full bg-black" />
         <div className="absolute bottom-0 right-0 w-1/3 h-2 bg-[#FFD400]" />
 
         <div className="max-w-6xl mx-auto w-full">
-          {/* Agency label */}
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-px bg-black" />
-            <span className="text-xs tracking-[0.3em] uppercase">
-              Agency Tool
-            </span>
+            <span className="text-xs tracking-[0.3em] uppercase">Agency Tool</span>
           </div>
 
-          {/* NOW MODE - highly visible */}
           <div className="mb-8">
             <span className="text-[clamp(4rem,14vw,11rem)] font-bold leading-[0.9] tracking-tighter block">
               NOW
@@ -57,37 +64,30 @@ export default function Home() {
             </span>
           </div>
 
-          {/* Time by Choice - prominent tagline */}
           <h1 className="text-[clamp(1.75rem,5vw,4rem)] font-bold leading-[1.1] mb-6">
             TIME BY <span className="bg-[#FFD400] px-2">CHOICE</span>
           </h1>
 
-          {/* Description - Inter font for readability */}
           <p className="text-base md:text-lg leading-relaxed font-sans text-gray-700 max-w-md">
             Replace compulsive clock-checking with intentional presence. A
             different way to relate to time.
           </p>
         </div>
 
-        {/* Scroll indicator - functional */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <span className="text-[10px] tracking-[0.3em]">SCROLL</span>
           <div className="w-px h-6 bg-black" />
         </div>
       </section>
 
-      {/* PRODUCT - How it works */}
+      {/* HOW IT WORKS — interactive device mockups live here */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-black text-white">
         <div className="max-w-5xl mx-auto">
           {/* Section header */}
           <div className="flex items-center gap-3 mb-12">
-            <span className="text-[10px] tracking-[0.3em] text-gray-500">
-              01
-            </span>
+            <span className="text-[10px] tracking-[0.3em] text-gray-500">01</span>
             <div className="w-12 h-px bg-gray-700" />
-            <span className="text-[10px] tracking-[0.3em] text-gray-500">
-              HOW IT WORKS
-            </span>
+            <span className="text-[10px] tracking-[0.3em] text-gray-500">HOW IT WORKS</span>
           </div>
 
           {/* Headline */}
@@ -97,46 +97,78 @@ export default function Home() {
             <span className="text-[#FFD400]">TAP AGAIN FOR NOW.</span>
           </h2>
 
-          {/* Product mockups */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-16">
-            {/* NOW state */}
-            <div className="text-center">
-              <div className="aspect-[4/3] border border-gray-700 flex items-center justify-center relative mb-4">
-                {/* Corner brackets - indicate frame/screen */}
-                <div className="absolute top-4 left-4 w-6 h-6 border-t border-l border-gray-500" />
-                <div className="absolute top-4 right-4 w-6 h-6 border-t border-r border-gray-500" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-b border-l border-gray-500" />
-                <div className="absolute bottom-4 right-4 w-6 h-6 border-b border-r border-gray-500" />
-
-                <span className="text-5xl md:text-6xl font-bold text-[#FFD400]">
-                  NOW
-                </span>
-              </div>
-              <span className="text-[10px] tracking-[0.3em] text-gray-500">
-                DEFAULT STATE
-              </span>
-            </div>
-
-            {/* TIME state */}
-            <div className="text-center">
-              <div className="aspect-[4/3] border border-white bg-gray-900 flex items-center justify-center relative mb-4">
-                {/* Corner brackets */}
-                <div className="absolute top-4 left-4 w-6 h-6 border-t border-l border-gray-400" />
-                <div className="absolute top-4 right-4 w-6 h-6 border-t border-r border-gray-400" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-b border-l border-gray-400" />
-                <div className="absolute bottom-4 right-4 w-6 h-6 border-b border-r border-gray-400" />
-
-                <span className="text-5xl md:text-6xl font-medium text-white">
-                  14:32
-                </span>
-              </div>
-              <span className="text-[10px] tracking-[0.3em] text-gray-500">
-                ON TAP
-              </span>
+          {/* Controls row */}
+          <div
+            style={{
+              display: "flex", alignItems: "center",
+              gap: 20, marginBottom: 48, flexWrap: "wrap",
+            }}
+          >
+            <ColorPicker activeColor={activeColor} onChange={setActiveColor} />
+            <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.1)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{
+                fontFamily: '"Space Mono", monospace',
+                fontSize: "0.5rem", letterSpacing: "0.22em",
+                color: "rgba(255,255,255,0.3)",
+              }}>FORMAT</span>
+              <FormatToggle use12h={use12h} onChange={setUse12h} accentColor={color.bg} />
             </div>
           </div>
 
-          {/* Description */}
+          {/* Device mockups */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "center",
+              gap: "clamp(28px, 5vw, 72px)",
+              flexWrap: "wrap",
+            }}
+          >
+            {/* Watch */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+              <span style={{
+                fontFamily: '"Space Mono", monospace',
+                fontSize: "0.5rem", letterSpacing: "0.34em",
+                color: "rgba(255,255,255,0.25)",
+              }}>WATCH</span>
+              <WatchMockup
+                showTime={watchShowTime} onToggle={toggleWatch}
+                color={color} timeDisplay={timeDisplay} timePeriod={timePeriod}
+              />
+              <div style={{
+                width: 36, height: 2, background: color.bg,
+                transition: "background 0.3s ease",
+              }} />
+            </div>
+
+            {/* Divider */}
+            <div style={{
+              width: 1, height: 180,
+              background: "rgba(255,255,255,0.07)",
+              alignSelf: "center",
+            }} />
+
+            {/* Phone */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+              <span style={{
+                fontFamily: '"Space Mono", monospace',
+                fontSize: "0.5rem", letterSpacing: "0.34em",
+                color: "rgba(255,255,255,0.25)",
+              }}>MOBILE</span>
+              <PhoneMockup
+                showTime={phoneShowTime} onToggle={togglePhone}
+                color={color} timeDisplay={timeDisplay} timePeriod={timePeriod}
+              />
+              <div style={{
+                width: 36, height: 2, background: color.bg,
+                transition: "background 0.3s ease",
+              }} />
+            </div>
+          </div>
+
+          {/* Caption */}
           <p className="mt-16 text-center text-gray-400 max-w-md mx-auto font-sans text-sm">
             No notifications. No stats. No gamification. Just a simple toggle
             between presence and information.
@@ -148,9 +180,7 @@ export default function Home() {
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-10">
-            <span className="text-[10px] tracking-[0.3em] text-gray-400">
-              02
-            </span>
+            <span className="text-[10px] tracking-[0.3em] text-gray-400">02</span>
             <div className="w-12 h-px bg-gray-300" />
           </div>
 
@@ -159,7 +189,6 @@ export default function Home() {
             <span className="block text-[#FFD400]">COMPULSIVELY</span>
           </h2>
 
-          {/* Three columns - aligned text */}
           <div className="grid md:grid-cols-3 gap-8">
             <p className="text-sm leading-relaxed font-sans">
               Not because we need to. Because we are anxious, bored, or avoiding
@@ -175,11 +204,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Stat - meaningful data point */}
           <div className="mt-16 border-2 border-black p-6 md:p-8 inline-block">
-            <p className="text-[10px] tracking-[0.3em] text-gray-500 mb-1">
-              AVERAGE PER DAY
-            </p>
+            <p className="text-[10px] tracking-[0.3em] text-gray-500 mb-1">AVERAGE PER DAY</p>
             <p className="text-5xl md:text-6xl font-bold">150×</p>
           </div>
         </div>
@@ -190,9 +216,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center gap-3 mb-10">
             <div className="w-12 h-px bg-gray-700" />
-            <span className="text-[10px] tracking-[0.3em] text-gray-500">
-              03
-            </span>
+            <span className="text-[10px] tracking-[0.3em] text-gray-500">03</span>
             <div className="w-12 h-px bg-gray-700" />
           </div>
 
@@ -207,11 +231,8 @@ export default function Home() {
             that says one thing:
           </p>
 
-          {/* NOW highlight */}
           <div className="inline-block border-2 border-[#FFD400] px-6 py-3">
-            <span className="text-4xl md:text-6xl font-bold text-[#FFD400]">
-              NOW
-            </span>
+            <span className="text-4xl md:text-6xl font-bold text-[#FFD400]">NOW</span>
           </div>
         </div>
       </section>
@@ -220,9 +241,7 @@ export default function Home() {
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-10">
-            <span className="text-[10px] tracking-[0.3em] text-gray-400">
-              04
-            </span>
+            <span className="text-[10px] tracking-[0.3em] text-gray-400">04</span>
             <div className="w-12 h-px bg-gray-300" />
           </div>
 
@@ -248,14 +267,10 @@ export default function Home() {
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-[#FFD400] text-black">
         <div className="max-w-xl mx-auto text-center">
           <div className="inline-block border-2 border-black px-3 py-1 mb-6">
-            <span className="text-[10px] tracking-[0.3em] font-bold">
-              EARLY ACCESS
-            </span>
+            <span className="text-[10px] tracking-[0.3em] font-bold">EARLY ACCESS</span>
           </div>
 
-          <h2 className="text-[clamp(1.75rem,5vw,3.5rem)] font-bold mb-4">
-            BE THE FIRST
-          </h2>
+          <h2 className="text-[clamp(1.75rem,5vw,3.5rem)] font-bold mb-4">BE THE FIRST</h2>
 
           <p className="text-base mb-8 font-sans">
             Join the list. No spam. Just a heads up when NOW MODE is ready.
