@@ -36,9 +36,7 @@ export function useCurrentTime(use12h: boolean) {
   return state;
 }
 
-/* ─── Silver holographic material (static, no rotation) ─────────────────────── */
-// Layered: iridescent rainbow (low opacity) over brushed-silver base gradient.
-// The watch bezel uses the full bright version; the phone frame uses the darker one.
+/* ─── Silver holographic material ───────────────────────────────────────────── */
 export function silverBg(dark = false) {
   const lo = dark ? "#909090" : "#c4c4c4";
   const hi = dark ? "#d0d0d0" : "#f4f4f4";
@@ -90,17 +88,12 @@ function WatchScreenContent({
       }}
     >
       <Scanlines />
-
       {showTime ? (
-        <div
-          key="time"
-          className="screen-content"
-          style={{
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-            gap: 6, zIndex: 3, width: "100%", textAlign: "center",
-          }}
-        >
+        <div key="time" className="screen-content" style={{
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          gap: 6, zIndex: 3, width: "100%", textAlign: "center",
+        }}>
           <span style={{
             fontFamily: '"Space Mono", monospace',
             fontWeight: 700, color: color.text,
@@ -122,15 +115,11 @@ function WatchScreenContent({
           )}
         </div>
       ) : (
-        <div
-          key="now"
-          className="screen-content"
-          style={{
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-            gap: 8, zIndex: 3, width: "100%",
-          }}
-        >
+        <div key="now" className="screen-content" style={{
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          gap: 8, zIndex: 3, width: "100%",
+        }}>
           <span style={{
             fontFamily: '"Space Mono", monospace',
             fontWeight: 700, color: color.text,
@@ -155,7 +144,7 @@ function WatchScreenContent({
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   WATCH MOCKUP — flat 2-D, holographic silver bezel, tap to toggle
+   WATCH MOCKUP — flat, holographic silver bezel, tap to toggle
    ═══════════════════════════════════════════════════════════════════════════════ */
 export function WatchMockup({
   showTime, onToggle, color, timeDisplay, timePeriod,
@@ -238,22 +227,19 @@ export function WatchMockup({
           `,
           position: "relative", overflow: "hidden",
         }}>
-          {/* Animated shimmer sweep — the key holographic effect */}
+          {/* Animated shimmer sweep — holographic effect */}
           <div style={{
             position: "absolute", inset: 0,
             background: "linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.32) 50%, transparent 75%)",
             animation: "shimmer-sweep 4s ease-in-out infinite",
             borderRadius: RADIUS, pointerEvents: "none", zIndex: 5,
           }} />
-
-          {/* Bevel highlight */}
           <div style={{
             position: "absolute", inset: 0, borderRadius: RADIUS,
             background: "linear-gradient(145deg, rgba(255,255,255,0.22) 0%, transparent 55%)",
             pointerEvents: "none",
           }} />
-
-          {/* Screen inset */}
+          {/* Screen */}
           <div style={{
             width: "100%", height: "100%",
             borderRadius: RADIUS - BEZEL, overflow: "hidden",
@@ -266,7 +252,6 @@ export function WatchMockup({
               timePeriod={timePeriod} color={color}
             />
           </div>
-
           {/* Glass glare */}
           <div style={{
             position: "absolute",
@@ -304,11 +289,11 @@ export function WatchMockup({
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   PHONE SCREEN CONTENT
+   PHONE SCREEN — lock screen layout: always shows both NOW and live time
    ═══════════════════════════════════════════════════════════════════════════════ */
 function PhoneScreenContent({
-  showTime, timeDisplay, timePeriod, color,
-}: { showTime: boolean; timeDisplay: string; timePeriod: string; color: Color }) {
+  timeDisplay, timePeriod, color,
+}: { timeDisplay: string; timePeriod: string; color: Color }) {
   return (
     <div style={{
       width: "100%", height: "100%",
@@ -316,7 +301,6 @@ function PhoneScreenContent({
       position: "relative", overflow: "hidden",
       transition: "background 0.35s ease, box-shadow 0.35s ease",
       boxShadow: `inset 0 0 80px ${color.glow}`,
-      cursor: "pointer", userSelect: "none",
     }}>
       <Scanlines opacity={0.03} />
 
@@ -347,17 +331,44 @@ function PhoneScreenContent({
         </div>
       </div>
 
-      {showTime ? (
-        <div key="time" className="screen-content" style={{
-          position: "absolute", top: "28%", left: 0, right: 0,
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 4,
+      {/* Lock screen content: NOW + time, always visible together */}
+      <div style={{
+        position: "absolute",
+        top: "50%", left: 0, right: 0,
+        transform: "translateY(-54%)",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", gap: 4, zIndex: 4,
+      }}>
+        {/* NOW — top, large, lock-screen-clock position */}
+        <span style={{
+          fontFamily: '"Space Mono", monospace',
+          fontWeight: 700, color: color.text,
+          fontSize: "4.6rem",
+          letterSpacing: "-0.04em", lineHeight: 1,
+          textShadow: `0 4px 28px ${color.glow}`,
+          display: "block", textAlign: "center",
+        }}>
+          NOW
+        </span>
+
+        {/* Thin separator */}
+        <div style={{
+          width: 40, height: 1,
+          background: color.text, opacity: 0.2,
+          margin: "6px 0",
+        }} />
+
+        {/* Live time — below, like date on a real lock screen */}
+        <div style={{
+          display: "flex", flexDirection: "column",
+          alignItems: "center", gap: 3,
         }}>
           <span style={{
             fontFamily: '"Space Mono", monospace',
             fontWeight: 700, color: color.text,
-            fontSize: "3.8rem",
-            letterSpacing: "-0.04em", lineHeight: 1,
-            textShadow: `0 4px 24px ${color.glow}`,
+            fontSize: "2.6rem",
+            letterSpacing: "-0.03em", lineHeight: 1,
+            textShadow: `0 2px 16px ${color.glow}`,
           }}>
             {timeDisplay}
           </span>
@@ -365,38 +376,13 @@ function PhoneScreenContent({
             <span style={{
               fontFamily: '"Space Mono", monospace',
               fontWeight: 400, color: color.text,
-              fontSize: "0.7rem", letterSpacing: "0.3em", opacity: 0.6,
+              fontSize: "0.7rem", letterSpacing: "0.3em", opacity: 0.55,
             }}>
               {timePeriod}
             </span>
           )}
-          <div style={{
-            marginTop: 12, fontFamily: '"Space Mono", monospace',
-            fontSize: "0.5rem", letterSpacing: "0.22em",
-            color: color.text, opacity: 0.4,
-          }}>TAP FOR NOW</div>
         </div>
-      ) : (
-        <div key="now" className="screen-content" style={{
-          position: "absolute", inset: 0,
-          display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center", zIndex: 4,
-        }}>
-          <span style={{
-            fontFamily: '"Space Mono", monospace',
-            fontWeight: 700, color: color.text,
-            fontSize: "4.8rem",
-            letterSpacing: "-0.04em", lineHeight: 1,
-            textShadow: `0 4px 28px ${color.glow}`,
-            display: "block", textAlign: "center",
-          }}>NOW</span>
-          <span style={{
-            marginTop: 16, fontFamily: '"Space Mono", monospace',
-            fontSize: "0.5rem", letterSpacing: "0.3em",
-            color: color.text, opacity: 0.38,
-          }}>TAP TO SEE TIME</span>
-        </div>
-      )}
+      </div>
 
       {/* Home indicator */}
       <div style={{
@@ -410,18 +396,17 @@ function PhoneScreenContent({
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   PHONE MOCKUP — flat 2-D, holographic silver frame, tap to toggle
+   PHONE MOCKUP — flat, holographic silver frame, lock screen always visible
    ═══════════════════════════════════════════════════════════════════════════════ */
 export function PhoneMockup({
-  showTime, onToggle, color, timeDisplay, timePeriod,
+  color, timeDisplay, timePeriod,
 }: {
-  showTime: boolean; onToggle: () => void; color: Color;
-  timeDisplay: string; timePeriod: string;
+  color: Color; timeDisplay: string; timePeriod: string;
 }) {
   const W = 200, H = 432, RADIUS = 38, BEZEL = 8;
 
   return (
-    <div style={{ position: "relative", cursor: "pointer", userSelect: "none" }} onClick={onToggle}>
+    <div style={{ position: "relative", userSelect: "none" }}>
       {/* Left side buttons */}
       <div style={{
         position: "absolute", left: -9, top: 80, width: 8, height: 22,
@@ -459,14 +444,11 @@ export function PhoneMockup({
         `,
         position: "relative", overflow: "hidden",
       }}>
-        {/* Iridescent shimmer overlay (static, not animated — phone is subtle) */}
         <div style={{
           position: "absolute", inset: 0,
           background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(180,79,255,0.12) 70%, transparent 100%)",
           borderRadius: RADIUS, pointerEvents: "none", zIndex: 5,
         }} />
-
-        {/* Bevel */}
         <div style={{
           position: "absolute", inset: 0, borderRadius: RADIUS,
           background: "linear-gradient(145deg, rgba(255,255,255,0.18) 0%, transparent 55%)",
@@ -482,8 +464,7 @@ export function PhoneMockup({
           position: "relative", zIndex: 1,
         }}>
           <PhoneScreenContent
-            showTime={showTime} timeDisplay={timeDisplay}
-            timePeriod={timePeriod} color={color}
+            timeDisplay={timeDisplay} timePeriod={timePeriod} color={color}
           />
 
           {/* Punch-hole camera */}

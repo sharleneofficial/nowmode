@@ -10,7 +10,6 @@ import {
 
 export default function DemoPage() {
   const [watchShowTime, setWatchShowTime] = useState(false);
-  const [phoneShowTime, setPhoneShowTime] = useState(false);
   const [activeColor, setActiveColor]     = useState(0);
   const [use12h, setUse12h]               = useState(false);
 
@@ -18,7 +17,6 @@ export default function DemoPage() {
   const color = COLORS[activeColor];
 
   const toggleWatch = useCallback(() => setWatchShowTime((v) => !v), []);
-  const togglePhone = useCallback(() => setPhoneShowTime((v) => !v), []);
 
   return (
     <div
@@ -75,7 +73,7 @@ export default function DemoPage() {
         <p style={{
           marginTop: 12, fontSize: "0.7rem", letterSpacing: "0.2em",
           color: "rgba(255,255,255,0.35)",
-        }}>CHOOSE A COLOR · TAP DEVICES TO TOGGLE</p>
+        }}>CHOOSE A COLOR · TAP WATCH TO TOGGLE</p>
       </section>
 
       {/* ── Controls bar ── */}
@@ -135,7 +133,6 @@ export default function DemoPage() {
             color: "rgba(255,255,255,0.25)", marginBottom: 4,
           }}>MOBILE</p>
           <PhoneMockup
-            showTime={phoneShowTime} onToggle={togglePhone}
             color={color} timeDisplay={timeDisplay} timePeriod={timePeriod}
           />
           <div style={{
@@ -153,7 +150,7 @@ export default function DemoPage() {
         gap: "clamp(24px, 5vw, 60px)", flexWrap: "wrap",
       }}>
         {[
-          ["TAP",    "Toggle NOW / time on each device"],
+          ["TAP",    "Toggle NOW / time on watch"],
           ["COLOR",  "5 screen themes"],
           ["FORMAT", "12H or 24H clock"],
         ].map(([label, desc]) => (

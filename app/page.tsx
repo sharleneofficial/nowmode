@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Space_Mono, Inter } from "next/font/google";
 import Link from "next/link";
 import {
@@ -21,33 +21,133 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+/* ─── Small inline theme swatch (used in hero picker) ───────────────────────── */
+function HeroThemePicker({
+  activeIndex, onChange,
+}: { activeIndex: number; onChange: (i: number) => void }) {
+  return (
+    <div style={{
+      display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8,
+    }}>
+      <span style={{
+        fontFamily: '"Space Mono", monospace',
+        fontSize: "0.45rem", letterSpacing: "0.34em",
+        color: "rgba(0,0,0,0.3)",
+      }}>ACCENT</span>
+      <div style={{ display: "flex", gap: 8 }}>
+        {COLORS.map((c, i) => (
+          <button
+            key={c.id}
+            title={c.label}
+            onClick={() => onChange(i)}
+            style={{
+              width: 18, height: 18, borderRadius: "50%",
+              background: c.bg,
+              border: "none", outline: "none", cursor: "pointer",
+              boxShadow: activeIndex === i
+                ? `0 0 0 2px #fff, 0 0 0 4px ${c.bg}`
+                : "0 0 0 1px rgba(0,0,0,0.12)",
+              transform: activeIndex === i ? "scale(1.2)" : "scale(1)",
+              transition: "box-shadow 0.18s ease, transform 0.18s ease",
+              flexShrink: 0,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
-  const [email, setEmail]           = useState("");
-  const [submitted, setSubmitted]   = useState(false);
-  const [activeColor, setActiveColor] = useState(0);
-  const [use12h, setUse12h]         = useState(false);
+  /* ── Email form ── */
+  const [email, setEmail]         = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending]     = useState(false);
+
+  /* ── Site-wide accent color ── */
+  const [accentIndex, setAccentIndex]           = useState(0);     // hero picker selection
+  const [siteAccent, setSiteAccent]             = useState("#FFD400");
+  const [lastManualAccent, setLastManualAccent] = useState("#FFD400");
+
+  /* ── Device mockup state ── */
+  const [activeColor, setActiveColor]   = useState(0);   // device color picker
+  const [use12h, setUse12h]             = useState(false);
   const [watchShowTime, setWatchShowTime] = useState(false);
-  const [phoneShowTime, setPhoneShowTime] = useState(false);
+  const [isSynced, setIsSynced]           = useState(false);
 
   const { display: timeDisplay, period: timePeriod } = useCurrentTime(use12h);
-  const color = COLORS[activeColor];
+  const deviceColor = COLORS[activeColor];
+
+  /* ── Push accent to CSS custom property ── */
+  useEffect(() => {
+    document.documentElement.style.setProperty("--accent", siteAccent);
+  }, [siteAccent]);
+
+  /* ── Hero picker → update site accent + sync mockup ── */
+  const handleHeroPick = useCallback((i: number) => {
+    const c = COLORS[i];
+    setAccentIndex(i);
+    setSiteAccent(c.bg);
+    setLastManualAccent(c.bg);
+    setActiveColor(i);
+    if (isSynced) setIsSynced(false);
+  }, [isSynced]);
+
+  /* ── Device picker → update mockup color, sync site if toggle on ── */
+  const handleDevicePick = useCallback((i: number) => {
+    setActiveColor(i);
+    if (isSynced) setSiteAccent(COLORS[i].bg);
+  }, [isSynced]);
+
+  /* ── "Apply theme to full site" toggle ── */
+  const handleSyncToggle = useCallback(() => {
+    if (!isSynced) {
+      setSiteAccent(COLORS[activeColor].bg);
+      setIsSynced(true);
+    } else {
+      setSiteAccent(lastManualAccent);
+      setIsSynced(false);
+    }
+  }, [isSynced, activeColor, lastManualAccent]);
 
   const toggleWatch = useCallback(() => setWatchShowTime((v) => !v), []);
-  const togglePhone = useCallback(() => setPhoneShowTime((v) => !v), []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  /* ── Email submit ── */
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (!email) return;
+    setSending(true);
+    try {
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      setSubmitted(true);
+    } catch {
+      setSubmitted(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <main className={`${spaceMono.variable} ${inter.variable} font-mono bg-white text-black overflow-x-hidden`}>
 
-      {/* HERO */}
+      {/* ═══ HERO ═══════════════════════════════════════════════════════════════ */}
       <section className="min-h-screen relative flex flex-col justify-center px-8 md:px-16 lg:px-24">
         <div className="absolute top-0 left-0 w-full h-2 bg-black" />
         <div className="absolute top-0 left-0 w-2 h-full bg-black" />
-        <div className="absolute bottom-0 right-0 w-1/3 h-2 bg-[#FFD400]" />
+        {/* Accent bar — follows site accent color */}
+        <div
+          className="absolute bottom-0 right-0 w-1/3 h-2"
+          style={{ background: "var(--accent)" }}
+        />
+
+        {/* ─ Hero theme picker — top-right corner ─ */}
+        <div className="absolute top-6 right-8">
+          <HeroThemePicker activeIndex={accentIndex} onChange={handleHeroPick} />
+        </div>
 
         <div className="max-w-6xl mx-auto w-full">
           <div className="flex items-center gap-3 mb-6">
@@ -59,13 +159,20 @@ export default function Home() {
             <span className="text-[clamp(4rem,14vw,11rem)] font-bold leading-[0.9] tracking-tighter block">
               NOW
             </span>
-            <span className="text-[clamp(4rem,14vw,11rem)] font-bold leading-[0.9] tracking-tighter text-[#FFD400] ml-[0.1em]">
+            {/* Accent-colored MODE */}
+            <span
+              className="text-[clamp(4rem,14vw,11rem)] font-bold leading-[0.9] tracking-tighter ml-[0.1em]"
+              style={{ color: "var(--accent)" }}
+            >
               MODE
             </span>
           </div>
 
           <h1 className="text-[clamp(1.75rem,5vw,4rem)] font-bold leading-[1.1] mb-6">
-            TIME BY <span className="bg-[#FFD400] px-2">CHOICE</span>
+            TIME BY{" "}
+            <span className="px-2" style={{ background: "var(--accent)" }}>
+              CHOICE
+            </span>
           </h1>
 
           <p className="text-base md:text-lg leading-relaxed font-sans text-gray-700 max-w-md">
@@ -80,52 +187,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HOW IT WORKS — interactive device mockups live here */}
+      {/* ═══ HOW IT WORKS — interactive device mockups ══════════════════════════ */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-black text-white">
         <div className="max-w-5xl mx-auto">
-          {/* Section header */}
           <div className="flex items-center gap-3 mb-12">
             <span className="text-[10px] tracking-[0.3em] text-gray-500">01</span>
             <div className="w-12 h-px bg-gray-700" />
             <span className="text-[10px] tracking-[0.3em] text-gray-500">HOW IT WORKS</span>
           </div>
 
-          {/* Headline */}
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-16">
             TAP TO SEE TIME.
             <br />
-            <span className="text-[#FFD400]">TAP AGAIN FOR NOW.</span>
+            <span style={{ color: "var(--accent)" }}>TAP AGAIN FOR NOW.</span>
           </h2>
 
           {/* Controls row */}
-          <div
-            style={{
-              display: "flex", alignItems: "center",
-              gap: 20, marginBottom: 48, flexWrap: "wrap",
-            }}
-          >
-            <ColorPicker activeColor={activeColor} onChange={setActiveColor} />
+          <div style={{
+            display: "flex", alignItems: "center",
+            gap: 20, marginBottom: 48, flexWrap: "wrap",
+          }}>
+            <ColorPicker activeColor={activeColor} onChange={handleDevicePick} />
+
             <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.1)" }} />
+
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{
                 fontFamily: '"Space Mono", monospace',
                 fontSize: "0.5rem", letterSpacing: "0.22em",
                 color: "rgba(255,255,255,0.3)",
               }}>FORMAT</span>
-              <FormatToggle use12h={use12h} onChange={setUse12h} accentColor={color.bg} />
+              <FormatToggle use12h={use12h} onChange={setUse12h} accentColor={deviceColor.bg} />
             </div>
+
+            <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.1)" }} />
+
+            {/* Apply theme to full site toggle */}
+            <button
+              onClick={handleSyncToggle}
+              style={{
+                fontFamily: '"Space Mono", monospace',
+                fontSize: "0.5rem", letterSpacing: "0.18em",
+                padding: "5px 14px",
+                background: isSynced ? deviceColor.bg : "transparent",
+                color: isSynced ? "#000" : "rgba(255,255,255,0.38)",
+                border: `1px solid ${isSynced ? deviceColor.bg : "rgba(255,255,255,0.14)"}`,
+                borderRadius: 3, cursor: "pointer",
+                transition: "all 0.25s ease",
+              }}
+            >
+              {isSynced ? "✓ THEME APPLIED TO SITE" : "APPLY THEME TO FULL SITE"}
+            </button>
           </div>
 
           {/* Device mockups */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              gap: "clamp(28px, 5vw, 72px)",
-              flexWrap: "wrap",
-            }}
-          >
+          <div style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            gap: "clamp(28px, 5vw, 72px)",
+            flexWrap: "wrap",
+          }}>
             {/* Watch */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
               <span style={{
@@ -135,10 +257,10 @@ export default function Home() {
               }}>WATCH</span>
               <WatchMockup
                 showTime={watchShowTime} onToggle={toggleWatch}
-                color={color} timeDisplay={timeDisplay} timePeriod={timePeriod}
+                color={deviceColor} timeDisplay={timeDisplay} timePeriod={timePeriod}
               />
               <div style={{
-                width: 36, height: 2, background: color.bg,
+                width: 36, height: 2, background: deviceColor.bg,
                 transition: "background 0.3s ease",
               }} />
             </div>
@@ -158,17 +280,15 @@ export default function Home() {
                 color: "rgba(255,255,255,0.25)",
               }}>MOBILE</span>
               <PhoneMockup
-                showTime={phoneShowTime} onToggle={togglePhone}
-                color={color} timeDisplay={timeDisplay} timePeriod={timePeriod}
+                color={deviceColor} timeDisplay={timeDisplay} timePeriod={timePeriod}
               />
               <div style={{
-                width: 36, height: 2, background: color.bg,
+                width: 36, height: 2, background: deviceColor.bg,
                 transition: "background 0.3s ease",
               }} />
             </div>
           </div>
 
-          {/* Caption */}
           <p className="mt-16 text-center text-gray-400 max-w-md mx-auto font-sans text-sm">
             No notifications. No stats. No gamification. Just a simple toggle
             between presence and information.
@@ -176,7 +296,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THE PROBLEM */}
+      {/* ═══ THE PROBLEM ════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-10">
@@ -186,7 +306,7 @@ export default function Home() {
 
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-12">
             WE CHECK THE CLOCK
-            <span className="block text-[#FFD400]">COMPULSIVELY</span>
+            <span className="block" style={{ color: "var(--accent)" }}>COMPULSIVELY</span>
           </h2>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -211,7 +331,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THE IDEA */}
+      {/* ═══ THE IDEA ════════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-black text-white">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center gap-3 mb-10">
@@ -223,7 +343,8 @@ export default function Home() {
           <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-6">
             WHAT IF YOU ONLY SAW
             <br />
-            TIME WHEN YOU <span className="text-[#FFD400]">CHOSE TO?</span>
+            TIME WHEN YOU{" "}
+            <span style={{ color: "var(--accent)" }}>CHOSE TO?</span>
           </h2>
 
           <p className="text-base text-gray-400 max-w-lg mx-auto mb-10 font-sans">
@@ -231,13 +352,21 @@ export default function Home() {
             that says one thing:
           </p>
 
-          <div className="inline-block border-2 border-[#FFD400] px-6 py-3">
-            <span className="text-4xl md:text-6xl font-bold text-[#FFD400]">NOW</span>
+          <div
+            className="inline-block px-6 py-3"
+            style={{ border: `2px solid var(--accent)` }}
+          >
+            <span
+              className="text-4xl md:text-6xl font-bold"
+              style={{ color: "var(--accent)" }}
+            >
+              NOW
+            </span>
           </div>
         </div>
       </section>
 
-      {/* PHILOSOPHY */}
+      {/* ═══ PHILOSOPHY ══════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-10">
@@ -252,7 +381,10 @@ export default function Home() {
             <br />
             NOT ABOUT WELLNESS.
             <br />
-            <span className="inline-block mt-3 border-b-4 border-[#FFD400]">
+            <span
+              className="inline-block mt-3"
+              style={{ borderBottom: `4px solid var(--accent)` }}
+            >
               IT IS ABOUT AGENCY.
             </span>
           </blockquote>
@@ -263,8 +395,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* EARLY ACCESS */}
-      <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-[#FFD400] text-black">
+      {/* ═══ EARLY ACCESS ════════════════════════════════════════════════════════ */}
+      <section
+        className="py-24 md:py-32 px-8 md:px-16 lg:px-24 text-black"
+        style={{ background: "var(--accent)" }}
+      >
         <div className="max-w-xl mx-auto text-center">
           <div className="inline-block border-2 border-black px-3 py-1 mb-6">
             <span className="text-[10px] tracking-[0.3em] font-bold">EARLY ACCESS</span>
@@ -294,9 +429,10 @@ export default function Home() {
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-black text-white font-bold text-xs tracking-wider hover:bg-gray-900 transition-colors"
+                  disabled={sending}
+                  className="px-6 py-3 bg-black text-white font-bold text-xs tracking-wider hover:bg-gray-900 transition-colors disabled:opacity-60"
                 >
-                  JOIN
+                  {sending ? "..." : "JOIN"}
                 </button>
               </div>
             </form>
@@ -304,16 +440,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* ═══ FOOTER ══════════════════════════════════════════════════════════════ */}
       <footer className="py-10 px-8 md:px-16 lg:px-24 bg-black text-white">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold text-[#FFD400]">NOW</span>
+            <span className="text-xl font-bold" style={{ color: "var(--accent)" }}>NOW</span>
             <span className="text-xl font-bold">MODE</span>
           </div>
           <Link
             href="/demo"
-            className="text-xs tracking-[0.22em] text-[#FFD400] border-b border-[#FFD400] border-opacity-40 pb-px hover:border-opacity-100 transition-all"
+            className="text-xs tracking-[0.22em] pb-px transition-all"
+            style={{ color: "var(--accent)", borderBottom: `1px solid var(--accent)` }}
           >
             INTERACTIVE DEMO →
           </Link>
