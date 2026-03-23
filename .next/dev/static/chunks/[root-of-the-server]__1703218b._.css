@@ -4556,12 +4556,19 @@ input:focus {
   outline: none;
 }
 
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-@keyframes holographic {
+@keyframes silver-shift {
   0% {
     background-position: 0%;
   }
@@ -4573,63 +4580,6 @@ input:focus {
   100% {
     background-position: 0%;
   }
-}
-
-@keyframes shimmer-sweep {
-  0% {
-    opacity: 0;
-    transform: translateX(-150%)skewX(-15deg);
-  }
-
-  40% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(250%)skewX(-15deg);
-  }
-}
-
-@keyframes glow-pulse {
-  0%, 100% {
-    opacity: .6;
-  }
-
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: scale(.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.holographic-case {
-  background: linear-gradient(125deg, #ff007a, #ff8c00, #ffe500, #00e5d4, #0080ff, #b44fff, #ff007a) 0 0 / 400% 400%;
-  animation: 5s infinite holographic;
-}
-
-.shimmer-sweep {
-  overflow: hidden;
-}
-
-.shimmer-sweep:after {
-  content: "";
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(105deg, #0000 30%, #ffffff73 50%, #0000 70%);
-  animation: 3.5s ease-in-out infinite shimmer-sweep;
-  position: absolute;
-  inset: 0;
 }
 
 .screen-content {
@@ -4647,10 +4597,6 @@ input:focus {
 .color-dot.active {
   transform: scale(1.22);
   box-shadow: 0 0 0 3px #ffffffe6;
-}
-
-.glow-screen {
-  animation: 2.5s ease-in-out infinite glow-pulse;
 }
 
 @property --tw-translate-x {
