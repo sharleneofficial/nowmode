@@ -332,56 +332,36 @@ function PhoneScreenContent({
         </div>
       </div>
 
-      {showTime ? (
-        <div key="time" className="screen-content" style={{
-          position: "absolute", top: "28%", left: 0, right: 0,
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 4,
+      <div style={{
+        position: "absolute", top: "28%", left: 0, right: 0,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 4,
+      }}>
+        <span style={{
+          fontFamily: '"Space Mono", monospace',
+          fontWeight: 700, color: color.text,
+          fontSize: "3.8rem",
+          letterSpacing: "-0.04em", lineHeight: 1,
+          textShadow: `0 4px 24px ${color.glow}`,
         }}>
+          {showTime ? timeDisplay : "NOW"}
+        </span>
+        {showTime && timePeriod && (
           <span style={{
             fontFamily: '"Space Mono", monospace',
-            fontWeight: 700, color: color.text,
-            fontSize: "3.8rem",
-            letterSpacing: "-0.04em", lineHeight: 1,
-            textShadow: `0 4px 24px ${color.glow}`,
+            fontWeight: 400, color: color.text,
+            fontSize: "0.7rem", letterSpacing: "0.3em", opacity: 0.6,
           }}>
-            {timeDisplay}
+            {timePeriod}
           </span>
-          {timePeriod && (
-            <span style={{
-              fontFamily: '"Space Mono", monospace',
-              fontWeight: 400, color: color.text,
-              fontSize: "0.7rem", letterSpacing: "0.3em", opacity: 0.6,
-            }}>
-              {timePeriod}
-            </span>
-          )}
-          <div style={{
-            marginTop: 12, fontFamily: '"Space Mono", monospace',
-            fontSize: "0.5rem", letterSpacing: "0.22em",
-            color: color.text, opacity: 0.4,
-          }}>TAP FOR NOW</div>
-        </div>
-      ) : (
-        <div key="now" className="screen-content" style={{
-          position: "absolute", inset: 0,
-          display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center", zIndex: 4,
+        )}
+        <div style={{
+          marginTop: 12, fontFamily: '"Space Mono", monospace',
+          fontSize: "0.5rem", letterSpacing: "0.22em",
+          color: color.text, opacity: 0.4,
         }}>
-          <span style={{
-            fontFamily: '"Space Mono", monospace',
-            fontWeight: 700, color: color.text,
-            fontSize: "4.8rem",
-            letterSpacing: "-0.04em", lineHeight: 1,
-            textShadow: `0 4px 28px ${color.glow}`,
-            display: "block", textAlign: "center",
-          }}>NOW</span>
-          <span style={{
-            marginTop: 16, fontFamily: '"Space Mono", monospace',
-            fontSize: "0.5rem", letterSpacing: "0.3em",
-            color: color.text, opacity: 0.38,
-          }}>TAP TO SEE TIME</span>
+          {showTime ? "TAP FOR NOW" : "TAP TO SEE TIME"}
         </div>
-      )}
+      </div>
 
       {/* Home indicator */}
       <div style={{

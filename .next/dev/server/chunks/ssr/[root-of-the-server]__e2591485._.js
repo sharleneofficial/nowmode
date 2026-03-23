@@ -657,8 +657,7 @@ function WatchMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                 lineNumber: 309,
                 columnNumber: 7
             }, this),
-            showTime ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "screen-content",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
                     position: "absolute",
                     top: "28%",
@@ -681,13 +680,13 @@ function WatchMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                             lineHeight: 1,
                             textShadow: `0 4px 24px ${color.glow}`
                         },
-                        children: timeDisplay
+                        children: showTime ? timeDisplay : "NOW"
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 340,
-                        columnNumber: 11
+                        lineNumber: 339,
+                        columnNumber: 9
                     }, this),
-                    timePeriod && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                    showTime && timePeriod && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         style: {
                             fontFamily: '"Space Mono", monospace',
                             fontWeight: 400,
@@ -699,8 +698,8 @@ function WatchMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                         children: timePeriod
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 350,
-                        columnNumber: 13
+                        lineNumber: 349,
+                        columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
@@ -711,67 +710,17 @@ function WatchMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                             color: color.text,
                             opacity: 0.4
                         },
-                        children: "TAP FOR NOW"
+                        children: showTime ? "TAP FOR NOW" : "TAP TO SEE TIME"
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 358,
-                        columnNumber: 11
+                        lineNumber: 357,
+                        columnNumber: 9
                     }, this)
                 ]
-            }, "time", true, {
+            }, void 0, true, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 336,
-                columnNumber: 9
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "screen-content",
-                style: {
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 4
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        style: {
-                            fontFamily: '"Space Mono", monospace',
-                            fontWeight: 700,
-                            color: color.text,
-                            fontSize: "4.8rem",
-                            letterSpacing: "-0.04em",
-                            lineHeight: 1,
-                            textShadow: `0 4px 28px ${color.glow}`,
-                            display: "block",
-                            textAlign: "center"
-                        },
-                        children: "NOW"
-                    }, void 0, false, {
-                        fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 370,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        style: {
-                            marginTop: 16,
-                            fontFamily: '"Space Mono", monospace',
-                            fontSize: "0.5rem",
-                            letterSpacing: "0.3em",
-                            color: color.text,
-                            opacity: 0.38
-                        },
-                        children: "TAP TO SEE TIME"
-                    }, void 0, false, {
-                        fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 378,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, "now", true, {
-                fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 365,
-                columnNumber: 9
+                lineNumber: 335,
+                columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
@@ -788,7 +737,7 @@ function WatchMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 387,
+                lineNumber: 367,
                 columnNumber: 7
             }, this)
         ]
@@ -819,7 +768,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 411,
+                lineNumber: 391,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -835,7 +784,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 416,
+                lineNumber: 396,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -851,7 +800,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 421,
+                lineNumber: 401,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -867,7 +816,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 428,
+                lineNumber: 408,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -898,7 +847,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 447,
+                        lineNumber: 427,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -911,7 +860,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 452,
+                        lineNumber: 432,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -935,7 +884,7 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                                 color: color
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 468,
+                                lineNumber: 448,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -953,13 +902,13 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                                lineNumber: 473,
+                                lineNumber: 453,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 459,
+                        lineNumber: 439,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -975,19 +924,19 @@ function PhoneMockup({ showTime, onToggle, color, timeDisplay, timePeriod }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 483,
+                        lineNumber: 463,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 435,
+                lineNumber: 415,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/components/DeviceMockups.tsx",
-        lineNumber: 409,
+        lineNumber: 389,
         columnNumber: 5
     }, this);
 }
@@ -1029,12 +978,12 @@ function ColorPicker({ activeColor, onChange }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/app/components/DeviceMockups.tsx",
-                        lineNumber: 515,
+                        lineNumber: 495,
                         columnNumber: 13
                     }, this)
                 }, c.id, false, {
                     fileName: "[project]/app/components/DeviceMockups.tsx",
-                    lineNumber: 503,
+                    lineNumber: 483,
                     columnNumber: 9
                 }, this)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1049,13 +998,13 @@ function ColorPicker({ activeColor, onChange }) {
                 children: color.label
             }, void 0, false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 522,
+                lineNumber: 502,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/components/DeviceMockups.tsx",
-        lineNumber: 501,
+        lineNumber: 481,
         columnNumber: 5
     }, this);
 }
@@ -1089,12 +1038,12 @@ function FormatToggle({ use12h, onChange, accentColor }) {
                 children: is12 ? "12H" : "24H"
             }, String(is12), false, {
                 fileName: "[project]/app/components/DeviceMockups.tsx",
-                lineNumber: 544,
+                lineNumber: 524,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/app/components/DeviceMockups.tsx",
-        lineNumber: 538,
+        lineNumber: 518,
         columnNumber: 5
     }, this);
 }
