@@ -2125,6 +2125,10 @@
     padding-bottom: calc(var(--spacing) * 4);
   }
 
+  .pb-px {
+    padding-bottom: 1px;
+  }
+
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
   }
@@ -2371,6 +2375,11 @@
   .tracking-\[0\.18em\] {
     --tw-tracking: .18em;
     letter-spacing: .18em;
+  }
+
+  .tracking-\[0\.22em\] {
+    --tw-tracking: .22em;
+    letter-spacing: .22em;
   }
 
   .tracking-tight {
@@ -3525,6 +3534,12 @@
   }
 
   @media (min-width: 40rem) {
+    .sm\:block {
+      display: block;
+    }
+  }
+
+  @media (min-width: 40rem) {
     .sm\:flex {
       display: flex;
     }
@@ -4274,6 +4289,98 @@ input:focus {
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+
+@keyframes holographic {
+  0% {
+    background-position: 0%;
+  }
+
+  50% {
+    background-position: 100%;
+  }
+
+  100% {
+    background-position: 0%;
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-150%)skewX(-15deg);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(250%)skewX(-15deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: .6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.holographic-case {
+  background: linear-gradient(125deg, #ff007a, #ff8c00, #ffe500, #00e5d4, #0080ff, #b44fff, #ff007a) 0 0 / 400% 400%;
+  animation: 5s infinite holographic;
+}
+
+.shimmer-sweep {
+  overflow: hidden;
+}
+
+.shimmer-sweep:after {
+  content: "";
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(105deg, #0000 30%, #ffffff73 50%, #0000 70%);
+  animation: 3.5s ease-in-out infinite shimmer-sweep;
+  position: absolute;
+  inset: 0;
+}
+
+.screen-content {
+  animation: .15s both fade-in;
+}
+
+.color-dot {
+  transition: transform .15s, box-shadow .15s;
+}
+
+.color-dot:hover {
+  transform: scale(1.18);
+}
+
+.color-dot.active {
+  transform: scale(1.22);
+  box-shadow: 0 0 0 3px #ffffffe6;
+}
+
+.glow-screen {
+  animation: 2.5s ease-in-out infinite glow-pulse;
 }
 
 @property --tw-translate-x {

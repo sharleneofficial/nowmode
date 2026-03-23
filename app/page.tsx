@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Space_Mono, Inter } from "next/font/google";
+import Link from "next/link";
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
@@ -295,9 +296,12 @@ export default function Home() {
             <span className="text-xl font-bold text-[#FFD400]">NOW</span>
             <span className="text-xl font-bold">MODE</span>
           </div>
-          <p className="text-xs tracking-[0.2em] text-gray-500">
-            TIME BY CHOICE
-          </p>
+          <Link
+            href="/demo"
+            className="text-xs tracking-[0.22em] text-[#FFD400] border-b border-[#FFD400] border-opacity-40 pb-px hover:border-opacity-100 transition-all"
+          >
+            INTERACTIVE DEMO →
+          </Link>
           <p className="text-xs text-gray-600">© 2026</p>
         </div>
       </footer>
