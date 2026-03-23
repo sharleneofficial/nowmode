@@ -21,19 +21,16 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-/* ─── Small inline theme swatch (used in hero picker) ───────────────────────── */
+/* ─── Hero accent picker ─────────────────────────────────────────────────────── */
 function HeroThemePicker({
   activeIndex, onChange,
 }: { activeIndex: number; onChange: (i: number) => void }) {
   return (
-    <div style={{
-      display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8,
-    }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
       <span style={{
         fontFamily: '"Space Mono", monospace',
-        fontSize: "0.45rem", letterSpacing: "0.34em",
-        color: "rgba(0,0,0,0.3)",
-      }}>ACCENT</span>
+        fontSize: "0.44rem", letterSpacing: "0.36em", color: "rgba(0,0,0,0.28)",
+      }}>THEME</span>
       <div style={{ display: "flex", gap: 8 }}>
         {COLORS.map((c, i) => (
           <button
@@ -42,8 +39,7 @@ function HeroThemePicker({
             onClick={() => onChange(i)}
             style={{
               width: 18, height: 18, borderRadius: "50%",
-              background: c.bg,
-              border: "none", outline: "none", cursor: "pointer",
+              background: c.bg, border: "none", outline: "none", cursor: "pointer",
               boxShadow: activeIndex === i
                 ? `0 0 0 2px #fff, 0 0 0 4px ${c.bg}`
                 : "0 0 0 1px rgba(0,0,0,0.12)",
@@ -64,42 +60,41 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending]     = useState(false);
 
-  /* ── Site-wide accent color ── */
-  const [accentIndex, setAccentIndex]           = useState(0);     // hero picker selection
+  /* ── Site-wide accent ── */
+  const [accentIndex, setAccentIndex]           = useState(0);
   const [siteAccent, setSiteAccent]             = useState("#FFD400");
   const [lastManualAccent, setLastManualAccent] = useState("#FFD400");
 
-  /* ── Device mockup state ── */
-  const [activeColor, setActiveColor]   = useState(0);   // device color picker
-  const [use12h, setUse12h]             = useState(false);
+  /* ── Device mockup ── */
+  const [activeColor, setActiveColor]     = useState(0);
+  const [use12h, setUse12h]               = useState(false);
   const [watchShowTime, setWatchShowTime] = useState(false);
   const [isSynced, setIsSynced]           = useState(false);
 
   const { display: timeDisplay, period: timePeriod } = useCurrentTime(use12h);
   const deviceColor = COLORS[activeColor];
 
-  /* ── Push accent to CSS custom property ── */
+  /* Push accent to CSS custom property */
   useEffect(() => {
     document.documentElement.style.setProperty("--accent", siteAccent);
   }, [siteAccent]);
 
-  /* ── Hero picker → update site accent + sync mockup ── */
+  /* Hero picker → sets accent + syncs device colour */
   const handleHeroPick = useCallback((i: number) => {
-    const c = COLORS[i];
     setAccentIndex(i);
-    setSiteAccent(c.bg);
-    setLastManualAccent(c.bg);
+    setSiteAccent(COLORS[i].bg);
+    setLastManualAccent(COLORS[i].bg);
     setActiveColor(i);
     if (isSynced) setIsSynced(false);
   }, [isSynced]);
 
-  /* ── Device picker → update mockup color, sync site if toggle on ── */
+  /* Device picker → updates mockup, optionally syncs site */
   const handleDevicePick = useCallback((i: number) => {
     setActiveColor(i);
     if (isSynced) setSiteAccent(COLORS[i].bg);
   }, [isSynced]);
 
-  /* ── "Apply theme to full site" toggle ── */
+  /* Apply-theme toggle */
   const handleSyncToggle = useCallback(() => {
     if (!isSynced) {
       setSiteAccent(COLORS[activeColor].bg);
@@ -112,7 +107,7 @@ export default function Home() {
 
   const toggleWatch = useCallback(() => setWatchShowTime((v) => !v), []);
 
-  /* ── Email submit ── */
+  /* Email submit */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
@@ -134,17 +129,16 @@ export default function Home() {
   return (
     <main className={`${spaceMono.variable} ${inter.variable} font-mono bg-white text-black overflow-x-hidden`}>
 
-      {/* ═══ HERO ═══════════════════════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════
+          HERO
+          ════════════════════════════════════════════════════════ */}
       <section className="min-h-screen relative flex flex-col justify-center px-8 md:px-16 lg:px-24">
+        {/* Frame elements */}
         <div className="absolute top-0 left-0 w-full h-2 bg-black" />
         <div className="absolute top-0 left-0 w-2 h-full bg-black" />
-        {/* Accent bar — follows site accent color */}
-        <div
-          className="absolute bottom-0 right-0 w-1/3 h-2"
-          style={{ background: "var(--accent)" }}
-        />
+        <div className="absolute bottom-0 right-0 w-1/3 h-2" style={{ background: "var(--accent)" }} />
 
-        {/* ─ Hero theme picker — top-right corner ─ */}
+        {/* Theme picker — top right */}
         <div className="absolute top-6 right-8">
           <HeroThemePicker activeIndex={accentIndex} onChange={handleHeroPick} />
         </div>
@@ -159,7 +153,6 @@ export default function Home() {
             <span className="text-[clamp(4rem,14vw,11rem)] font-bold leading-[0.9] tracking-tighter block">
               NOW
             </span>
-            {/* Accent-colored MODE */}
             <span
               className="text-[clamp(4rem,14vw,11rem)] font-bold leading-[0.9] tracking-tighter ml-[0.1em]"
               style={{ color: "var(--accent)" }}
@@ -170,15 +163,35 @@ export default function Home() {
 
           <h1 className="text-[clamp(1.75rem,5vw,4rem)] font-bold leading-[1.1] mb-6">
             TIME BY{" "}
-            <span className="px-2" style={{ background: "var(--accent)" }}>
-              CHOICE
-            </span>
+            <span className="px-2" style={{ background: "var(--accent)" }}>CHOICE</span>
           </h1>
 
-          <p className="text-base md:text-lg leading-relaxed font-sans text-gray-700 max-w-md">
+          <p className="text-base md:text-lg leading-relaxed font-sans text-gray-700 max-w-md mb-8">
             Replace compulsive clock-checking with intentional presence. A
             different way to relate to time.
           </p>
+
+          {/* Hero CTA — links to full-screen demo */}
+          <div className="flex items-center gap-6 flex-wrap">
+            <Link
+              href="/demo"
+              className="inline-flex items-center gap-3 px-6 py-3 font-bold text-xs tracking-[0.2em] transition-colors"
+              style={{
+                background: "var(--accent)",
+                color: "#000",
+              }}
+            >
+              TRY THE DEMO
+              <span style={{ fontSize: "0.9em" }}>→</span>
+            </Link>
+            <span
+              className="text-xs tracking-[0.2em] cursor-pointer"
+              style={{ color: "rgba(0,0,0,0.35)", borderBottom: "1px solid rgba(0,0,0,0.15)" }}
+              onClick={() => document.getElementById("live-preview")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              SEE IT HERE ↓
+            </span>
+          </div>
         </div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
@@ -187,25 +200,155 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ HOW IT WORKS — interactive device mockups ══════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════
+          01 — THE PROBLEM
+          (Build tension before presenting the solution)
+          ════════════════════════════════════════════════════════ */}
+      <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="text-[10px] tracking-[0.3em] text-gray-400">01</span>
+            <div className="w-12 h-px bg-gray-300" />
+          </div>
+
+          <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-12">
+            WE CHECK THE CLOCK
+            <span className="block" style={{ color: "var(--accent)" }}>COMPULSIVELY.</span>
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <p className="text-sm leading-relaxed font-sans">
+              Not because we need to. Because we are anxious, bored, or avoiding
+              the present moment.
+            </p>
+            <p className="text-sm leading-relaxed font-sans text-gray-600">
+              The clock is always there. In the corner of the screen. On the
+              wrist. In the pocket. Always visible. Never turned off.
+            </p>
+            <p className="text-sm leading-relaxed font-sans text-gray-600">
+              We check it without thinking. Without purpose. A reflex born
+              from anxiety — not from needing to know the time.
+            </p>
+          </div>
+
+          {/* Stat */}
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start">
+            <div className="border-2 border-black p-6 md:p-8 inline-block">
+              <p className="text-[10px] tracking-[0.3em] text-gray-500 mb-1">AVERAGE CHECKS PER DAY</p>
+              <p className="text-5xl md:text-6xl font-bold">150×</p>
+            </div>
+            <div className="flex-1 pt-2 max-w-sm">
+              <p className="text-sm leading-relaxed font-sans text-gray-600 border-l-2 border-gray-200 pl-6">
+                Most of the time, we already know what time it is. We check
+                because we cannot stop — not because we need to.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          02 — THE IDEA
+          (Present the concept; let the question land before the demo)
+          ════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-black text-white">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
-            <span className="text-[10px] tracking-[0.3em] text-gray-500">01</span>
+            <span className="text-[10px] tracking-[0.3em] text-gray-500">02</span>
             <div className="w-12 h-px bg-gray-700" />
-            <span className="text-[10px] tracking-[0.3em] text-gray-500">HOW IT WORKS</span>
           </div>
 
-          <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-16">
-            TAP TO SEE TIME.
-            <br />
-            <span style={{ color: "var(--accent)" }}>TAP AGAIN FOR NOW.</span>
-          </h2>
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            {/* Left — the question */}
+            <div>
+              <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-6">
+                WHAT IF YOUR SCREEN SHOWED{" "}
+                <span style={{ color: "var(--accent)" }}>NOW</span>
+                {" "}INSTEAD OF THE TIME?
+              </h2>
+              <p className="text-base text-gray-400 leading-relaxed font-sans mb-8">
+                No clock in the corner. No constant reminder of how much time
+                has passed or how little remains. Just a screen that anchors
+                you to this moment.
+              </p>
+              <p className="text-base text-gray-400 leading-relaxed font-sans">
+                When you want the time, you ask for it. One tap. It appears.
+                One tap again and it is gone — replaced by the only moment
+                that actually exists.
+              </p>
+            </div>
 
-          {/* Controls row */}
+            {/* Right — NOW callout */}
+            <div className="flex flex-col items-start md:items-center gap-6">
+              <div className="inline-block px-8 py-6" style={{ border: `2px solid var(--accent)` }}>
+                <span
+                  className="text-5xl md:text-7xl font-bold block text-center"
+                  style={{ color: "var(--accent)" }}
+                >
+                  NOW
+                </span>
+              </div>
+              <div className="flex flex-col gap-3">
+                {[
+                  ["DEFAULT", "The screen shows NOW"],
+                  ["ON TAP",  "The time appears"],
+                  ["TAP AGAIN", "NOW returns"],
+                ].map(([label, desc]) => (
+                  <div key={label} className="flex items-start gap-4">
+                    <span className="text-[10px] tracking-[0.22em] pt-1" style={{ color: "var(--accent)", minWidth: 72 }}>
+                      {label}
+                    </span>
+                    <span className="text-sm text-gray-400 font-sans">{desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          03 — LIVE PREVIEW
+          (Interactive demo embedded — users already understand
+           the concept by this point)
+          ════════════════════════════════════════════════════════ */}
+      <section
+        id="live-preview"
+        className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-[#0a0a0a] text-white"
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-3 mb-12">
+            <span className="text-[10px] tracking-[0.3em] text-gray-500">03</span>
+            <div className="w-12 h-px bg-gray-700" />
+            <span className="text-[10px] tracking-[0.3em] text-gray-500">LIVE PREVIEW</span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight">
+                TAP THE WATCH.
+                <br />
+                <span style={{ color: "var(--accent)" }}>SEE IT WORK.</span>
+              </h2>
+              <p className="mt-4 text-sm text-gray-500 font-sans max-w-xs">
+                Watch toggles NOW ↔ time on tap. Phone always shows both — like a lock screen.
+              </p>
+            </div>
+
+            {/* Full-screen demo link */}
+            <Link
+              href="/demo"
+              className="inline-flex items-center gap-2 text-xs tracking-[0.2em] pb-px transition-opacity hover:opacity-70 self-start md:self-auto"
+              style={{ color: "var(--accent)", borderBottom: `1px solid var(--accent)` }}
+            >
+              FULL SCREEN DEMO →
+            </Link>
+          </div>
+
+          {/* Controls */}
           <div style={{
             display: "flex", alignItems: "center",
-            gap: 20, marginBottom: 48, flexWrap: "wrap",
+            gap: 16, marginBottom: 48, flexWrap: "wrap",
           }}>
             <ColorPicker activeColor={activeColor} onChange={handleDevicePick} />
 
@@ -222,7 +365,7 @@ export default function Home() {
 
             <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.1)" }} />
 
-            {/* Apply theme to full site toggle */}
+            {/* Apply theme toggle */}
             <button
               onClick={handleSyncToggle}
               style={{
@@ -240,7 +383,7 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Device mockups */}
+          {/* Devices */}
           <div style={{
             display: "flex",
             alignItems: "flex-start",
@@ -259,13 +402,9 @@ export default function Home() {
                 showTime={watchShowTime} onToggle={toggleWatch}
                 color={deviceColor} timeDisplay={timeDisplay} timePeriod={timePeriod}
               />
-              <div style={{
-                width: 36, height: 2, background: deviceColor.bg,
-                transition: "background 0.3s ease",
-              }} />
+              <div style={{ width: 36, height: 2, background: deviceColor.bg, transition: "background 0.3s ease" }} />
             </div>
 
-            {/* Divider */}
             <div style={{
               width: 1, height: 180,
               background: "rgba(255,255,255,0.07)",
@@ -282,91 +421,19 @@ export default function Home() {
               <PhoneMockup
                 color={deviceColor} timeDisplay={timeDisplay} timePeriod={timePeriod}
               />
-              <div style={{
-                width: 36, height: 2, background: deviceColor.bg,
-                transition: "background 0.3s ease",
-              }} />
+              <div style={{ width: 36, height: 2, background: deviceColor.bg, transition: "background 0.3s ease" }} />
             </div>
           </div>
 
-          <p className="mt-16 text-center text-gray-400 max-w-md mx-auto font-sans text-sm">
-            No notifications. No stats. No gamification. Just a simple toggle
-            between presence and information.
+          <p className="mt-16 text-center text-gray-500 max-w-sm mx-auto font-sans text-sm">
+            No notifications. No distractions. Time appears only when you ask for it.
           </p>
         </div>
       </section>
 
-      {/* ═══ THE PROBLEM ════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-10">
-            <span className="text-[10px] tracking-[0.3em] text-gray-400">02</span>
-            <div className="w-12 h-px bg-gray-300" />
-          </div>
-
-          <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-12">
-            WE CHECK THE CLOCK
-            <span className="block" style={{ color: "var(--accent)" }}>COMPULSIVELY</span>
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <p className="text-sm leading-relaxed font-sans">
-              Not because we need to. Because we are anxious, bored, or avoiding
-              the present moment.
-            </p>
-            <p className="text-sm leading-relaxed font-sans text-gray-600">
-              The clock is always there. In the corner of the screen. On the
-              wrist. In the pocket.
-            </p>
-            <p className="text-sm leading-relaxed font-sans text-gray-600">
-              We check it without thinking. Without purpose. Just to fill a
-              void.
-            </p>
-          </div>
-
-          <div className="mt-16 border-2 border-black p-6 md:p-8 inline-block">
-            <p className="text-[10px] tracking-[0.3em] text-gray-500 mb-1">AVERAGE PER DAY</p>
-            <p className="text-5xl md:text-6xl font-bold">150×</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ THE IDEA ════════════════════════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24 bg-black text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-10">
-            <div className="w-12 h-px bg-gray-700" />
-            <span className="text-[10px] tracking-[0.3em] text-gray-500">03</span>
-            <div className="w-12 h-px bg-gray-700" />
-          </div>
-
-          <h2 className="text-[clamp(1.5rem,4vw,2.5rem)] font-bold leading-tight mb-6">
-            WHAT IF YOU ONLY SAW
-            <br />
-            TIME WHEN YOU{" "}
-            <span style={{ color: "var(--accent)" }}>CHOSE TO?</span>
-          </h2>
-
-          <p className="text-base text-gray-400 max-w-lg mx-auto mb-10 font-sans">
-            No clock in the corner. No constant reminder. Just a blank screen
-            that says one thing:
-          </p>
-
-          <div
-            className="inline-block px-6 py-3"
-            style={{ border: `2px solid var(--accent)` }}
-          >
-            <span
-              className="text-4xl md:text-6xl font-bold"
-              style={{ color: "var(--accent)" }}
-            >
-              NOW
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ PHILOSOPHY ══════════════════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════
+          04 — PHILOSOPHY
+          ════════════════════════════════════════════════════════ */}
       <section className="py-24 md:py-32 px-8 md:px-16 lg:px-24">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-10">
@@ -374,28 +441,28 @@ export default function Home() {
             <div className="w-12 h-px bg-gray-300" />
           </div>
 
-          <blockquote className="text-[clamp(1.25rem,3vw,2rem)] font-bold leading-tight mb-6">
+          <blockquote className="text-[clamp(1.25rem,3vw,2rem)] font-bold leading-tight mb-8">
             THIS IS NOT ABOUT MINDFULNESS.
             <br />
             NOT ABOUT PRODUCTIVITY.
             <br />
             NOT ABOUT WELLNESS.
             <br />
-            <span
-              className="inline-block mt-3"
-              style={{ borderBottom: `4px solid var(--accent)` }}
-            >
+            <span className="inline-block mt-4" style={{ borderBottom: `4px solid var(--accent)` }}>
               IT IS ABOUT AGENCY.
             </span>
           </blockquote>
 
-          <p className="text-gray-600 max-w-lg font-sans text-sm">
+          <p className="text-gray-600 max-w-lg font-sans text-sm leading-relaxed">
             The simple, radical act of choosing when to know what time it is.
+            You decide when the clock matters. Not the other way around.
           </p>
         </div>
       </section>
 
-      {/* ═══ EARLY ACCESS ════════════════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════
+          EARLY ACCESS
+          ════════════════════════════════════════════════════════ */}
       <section
         className="py-24 md:py-32 px-8 md:px-16 lg:px-24 text-black"
         style={{ background: "var(--accent)" }}
@@ -407,14 +474,17 @@ export default function Home() {
 
           <h2 className="text-[clamp(1.75rem,5vw,3.5rem)] font-bold mb-4">BE THE FIRST</h2>
 
-          <p className="text-base mb-8 font-sans">
-            Join the list. No spam. Just a heads up when NOW MODE is ready.
+          <p className="text-base mb-2 font-sans">
+            Join the list. No spam.
+          </p>
+          <p className="text-sm mb-8 font-sans opacity-70">
+            A heads up when NOW MODE is ready for your watch and phone.
           </p>
 
           {submitted ? (
-            <div className="border-2 border-black p-5 inline-block bg-black text-white">
+            <div className="border-2 border-black p-6 inline-block bg-black text-white">
               <p className="text-lg font-bold">THANK YOU</p>
-              <p className="text-xs mt-1">We will be in touch.</p>
+              <p className="text-xs mt-1 opacity-60">We will be in touch.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
@@ -425,7 +495,7 @@ export default function Home() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
                   required
-                  className="flex-1 px-4 py-3 bg-black text-white placeholder-gray-500 text-sm outline-none"
+                  className="flex-1 px-4 py-3 bg-black text-white placeholder-gray-500 text-sm outline-none font-sans"
                 />
                 <button
                   type="submit"
@@ -440,7 +510,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ FOOTER ══════════════════════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════
+          FOOTER
+          ════════════════════════════════════════════════════════ */}
       <footer className="py-10 px-8 md:px-16 lg:px-24 bg-black text-white">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
@@ -449,10 +521,10 @@ export default function Home() {
           </div>
           <Link
             href="/demo"
-            className="text-xs tracking-[0.22em] pb-px transition-all"
+            className="text-xs tracking-[0.22em] pb-px transition-opacity hover:opacity-70"
             style={{ color: "var(--accent)", borderBottom: `1px solid var(--accent)` }}
           >
-            INTERACTIVE DEMO →
+            FULL SCREEN DEMO →
           </Link>
           <p className="text-xs text-gray-600">© 2026</p>
         </div>
