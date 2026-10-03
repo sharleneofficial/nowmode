@@ -1,0 +1,1 @@
+- [GitHub authorization boundaries](github-auth-boundaries.md) — Replit’s Git-pane auth and GitHub API connector are separate; assess both when checking repository or organization access.
