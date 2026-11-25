@@ -197,6 +197,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .join form{display:flex;border:2px solid var(--ink);max-width:520px;background:var(--paper)}
 .join input{flex:1;min-width:0;border:0;padding:16px 18px;font:17px var(--f-body);background:var(--paper);color:var(--ink)}
 .join .btn{background:var(--ink);color:var(--paper)}
+.join .btn:disabled{opacity:.6;cursor:default}
+.join .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .join .ok{margin-top:14px;font-family:var(--f-label);font-weight:500;font-size:13px;letter-spacing:.16em;text-transform:uppercase;min-height:1.5em}
 @media (max-width:760px){.join .wrap{grid-template-columns:1fr}}
 
@@ -364,6 +366,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-ite
       <form id="joinForm" novalidate>
         <label for="email" style="position:absolute;left:-9999px">Email</label>
         <input id="email" type="email" placeholder="your@email.com" autocomplete="email" required>
+        <input id="website" name="website" class="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn" type="submit">Follow</button>
       </form>
       <div class="ok" id="ok" aria-live="polite"></div>
@@ -524,9 +527,21 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-ite
   $('f24').addEventListener('change',()=>setFmt(true));$('f12').addEventListener('change',()=>setFmt(false));
   setInterval(()=>{if(state==='time')render();},1000);
 
-  /* signup (mock) */
-  $('joinForm').addEventListener('submit',e=>{e.preventDefault();const v=$('email').value.trim();
-    $('ok').textContent=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)?'You’re following NowMode.':'Enter an email address like name@example.com.';});
+  /* signup: saves to the NowMode Google Sheet through its Apps Script web app */
+  const SIGNUP_URL='https://script.google.com/macros/s/AKfycbwlU7oVv8Zf80Pb3poy1xCp8nZKpQNZWUJZverIjSAvdBtluyNZwdn8blO9yLf0iqtyGw/exec';
+  $('joinForm').addEventListener('submit',async e=>{e.preventDefault();
+    const f=$('joinForm'),btn=f.querySelector('button'),ok=$('ok'),v=$('email').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)||v.length>254){ok.textContent='Enter an email address like name@example.com.';$('email').focus();return;}
+    if(!/^https:\/\/script\.google\.com\//.test(SIGNUP_URL)){ok.textContent='Signups are not connected yet.';return;}
+    btn.disabled=true;ok.textContent='Sending…';
+    try{
+      const r=await fetch(SIGNUP_URL,{method:'POST',body:new URLSearchParams({email:v,website:$('website').value,page:location.pathname})});
+      const j=await r.json();
+      if(j.ok){f.reset();ok.textContent='Thank you. You’re following NowMode.';}
+      else ok.textContent='Enter an email address like name@example.com.';
+    }catch(err){ok.textContent='That didn’t go through. Please try once more.';}
+    finally{btn.disabled=false;}
+  });
 
   /* starry sky behind Sky by Light */
   function stars(){const cv=$('stars-sky'),r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);
